@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block body %}
-		{{ entry |safe }}<h4 style="color: red;">{{error}}</h4>
-		<p> <a href="{% url 'edit' title=title %}">Edit</a>
+		{{ entry |safe }}
+		{{error |safe}}
+		{% if entry %}
+			<p> <a href="{% url 'edit' title=title %}">Edit</a>
+		{% endif %}
 {% endblock %}
