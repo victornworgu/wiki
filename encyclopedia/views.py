@@ -3,6 +3,7 @@ from django import forms
 from django.urls import reverse
 from django.http import HttpResponseRedirect
 from . import util
+from . import msgs
 from random import choice
 from markdown2 import Markdown
 
@@ -22,7 +23,7 @@ def view_entry(request, title):
 		product = converter.convert(util.get_entry(title))
 		return render(request, "encyclopedia/entry.html", {"entry": product, "title": title})
 	else:
-		return render(request, "encyclopedia/entry.html", {"error": "<label style='padding: 10px; border-radius: 30px; border: 1px solid lightgray; color: red; margin: 40px;'>404: The requested page does not exist", "title": "404: Not Found</label>"})
+		return render(request, "encyclopedia/entry.html", {"error": msgs.view_error, "title": "Page not found"})
 
 def edit(request, title):
 	form_data = {"title": title, "content": util.get_entry(title)}
@@ -34,7 +35,7 @@ def edit(request, title):
 			content = edited_wiki.cleaned_data.get('content')
 
 			if title in util.list_entries() and content == util.get_entry(title):
-				return render(request, "encyclopedia/edit.html", {"form": form, "title": title, "error": "<span style='padding: 10px; border-radius: 30px; border: 1px solid lightgray; color: green; margin-right: 20px;'>You made no changes made to this wiki entry. Return <a href='/'>Home</a> if you don't wish to edit this entry</span>"})
+				return render(request, "encyclopedia/edit.html", {"form": form, "title": title, "error": msgs.edit_error})
 			else:
 				util.save_entry(title, content)
 				return redirect('viewentry', title=title)
@@ -55,7 +56,7 @@ def search(request):
 			for x in entries:
 				if query in x:
 					filtered.append(x)"""
-			return render(request, "encyclopedia/search.html", {"search_results": filtered, "query": query, "error": f"<label style='padding: 10px; border-radius: 30px; border: 1px solid lightgray; color: red; margin: 5px;'>Sorry, your search for <font color='blue'>'{query}'</font> returned no results</label>"})
+			return render(request, "encyclopedia/search.html", {"search_results": filtered, "query": query, "error": msgs.search_error})
 	return render(request, "encyclopedia/index.html", {"entries": entries})
 
 def addnew(request):
@@ -65,7 +66,7 @@ def addnew(request):
 			title = new_wiki.cleaned_data.get('title')
 			content = new_wiki.cleaned_data.get('content')
 			if title in util.list_entries():
-				return render(request, "encyclopedia/addnew.html", {"form": new_wiki, "error": "<span style='padding: 10px; border-radius: 30px; border: 1px solid lightgray; color: green; margin-right: 20px;'>A wiki entry with this title already exists</span>"})
+				return render(request, "encyclopedia/addnew.html", {"form": new_wiki, "error": msgs.add_error})
 			else:
 				util.save_entry(title, content)
 				return redirect('viewentry', title=title)

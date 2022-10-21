@@ -9,7 +9,10 @@
 		<form class="" action="{% url 'edit' title=title %}" method="post">
 			{% csrf_token %}
 			<div class="" style="text-align: right; margin-right: 20%;">
-			{{error |safe}}<input type="submit">
+				{% if error %}
+					<label class="error">{{error |safe}} <a href="{% url 'index' %}">| Return Home</a></label>
+				{% endif %}
+				<input type="submit">
 			</div>
 			<p><label>Wiki Title:</label>
 			<br>{{ form.title }}
@@ -17,7 +20,7 @@
 			<br>{{ form.content }}
 
 		</form>
-		<a href="{% url 'index' %}"></a>
+		<a href="{% url 'index' %}">Home</a>
 
 
 

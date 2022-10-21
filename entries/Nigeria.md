@@ -1,2 +1,2 @@
 # Nigeria
-A nation in West Africa
+A nation in West Africa. Nigeria, with an estimated population of about 200 million is rated the most populous black nation in the world. The capital of Nigeria is [Abuja](/wiki/Abuja), in the country's **Federal Capital Territory** (FCT).

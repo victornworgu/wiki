@@ -5,9 +5,10 @@
 {% endblock %}
 
 {% block body %}
-    <h2>Search Results</h2>
+    <h4>Search Results</h4>
 			{% if not search_results %}
-					{{error |safe}}
+					<label class="error">{{error |safe}}<span class="query"> "{{query}}"</span></label>
+					<br><a href="{% url 'index' %}">Return Home</a>
 			{% else %}
 				<ul>
       	{% for entry in search_results %}
